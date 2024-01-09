@@ -5,10 +5,14 @@ from .models import Genre, Book, Author, BookInstance
 class BookInstanceInLine(admin.TabularInline):
     model = BookInstance
     extra = 0
+    can_delete = False
+    readonly_fields = ['uuid']
+
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'isbn', 'display_genre']
     inlines = [BookInstanceInLine]
+
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name']
@@ -22,6 +26,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
         ('General', {'fields': ('uuid', 'book')}),
         ('Availability', {'fields': ('status', 'due_back')}),
     )
+
 
 # Register your models here.
 admin.site.register(Genre)
