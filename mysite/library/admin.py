@@ -2,8 +2,13 @@ from django.contrib import admin
 from .models import Genre, Book, Author, BookInstance
 
 
+class BookInstanceInLine(admin.TabularInline):
+    model = BookInstance
+    extra = 0
+
 class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'isbn', 'display_genre']
+    inlines = [BookInstanceInLine]
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name']
