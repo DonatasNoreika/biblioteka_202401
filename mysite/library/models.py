@@ -36,6 +36,11 @@ class Book(models.Model):
                             help_text='13 Simbolių <a href="https://www.isbn-international.org/content/what-isbn">ISBN kodas</a>')
     genre = models.ManyToManyField(to="Genre", verbose_name="Žanrai", help_text='Išrinkite žanrą(us) šiai knygai')
 
+    def display_genre(self):
+        return ', '.join(genre.name for genre in self.genre.all())
+
+    display_genre.short_description = 'Žanras (-ai)'
+
     def __str__(self):
         return f"{self.title}"
 
