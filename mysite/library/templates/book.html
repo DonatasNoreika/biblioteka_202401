@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block "title" %}Knyga{% endblock %}
+
+{% block "content" %}
+<p><strong>Pavadinimas: </strong>{{ book.title }}</p>
+<p><strong>Autorius: </strong>{{ book.author }}</p>
+<p><strong>ISBN: </strong>{{ book.isbn }}</p>
+<p><strong>Žanras (-ai): </strong>{{ book.display_genre }}</p>
+<p>{{ book.summary }}</p>
+{% endblock %}

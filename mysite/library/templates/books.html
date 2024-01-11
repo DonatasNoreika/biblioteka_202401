@@ -6,7 +6,7 @@
 <h1>Mūsų knygos:</h1>
 <br>
 {% for book in books %}
-<p>{{ book }}</p>
+<p><a href="{{ book.pk }}">{{ book }}</a></p>
 <hr>
 {% endfor %}
 {% endblock %}
