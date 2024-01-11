@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import BookInstance, Book, Author, Genre
 import datetime
 
+
 # Create your views here.
 def index(request):
     num_books = Book.objects.all().count()
@@ -16,3 +17,11 @@ def index(request):
         "now": datetime.datetime.today(),
     }
     return render(request, template_name='index.html', context=my_context)
+
+
+def authors(request):
+    authors = Author.objects.all()
+    context = {
+        'authors': authors,
+    }
+    return render(request, template_name="authors.html", context=context)
