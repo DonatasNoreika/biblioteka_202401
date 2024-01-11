@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block "title" %}Knygos{% endblock %}
+
+{% block "content" %}
+<h1>Mūsų knygos:</h1>
+<br>
+{% for book in books %}
+<p>{{ book }}</p>
+<hr>
+{% endfor %}
+{% endblock %}
