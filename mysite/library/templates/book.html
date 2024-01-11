@@ -8,4 +8,9 @@
 <p><strong>ISBN: </strong>{{ book.isbn }}</p>
 <p><strong>Žanras (-ai): </strong>{{ book.display_genre }}</p>
 <p>{{ book.summary }}</p>
+<hr>
+<p><strong>Egzemplioriai:</strong></p>
+{% for instance in book.instances.all %}
+<p>{{ instance }}</p>
+{% endfor %}
 {% endblock %}
