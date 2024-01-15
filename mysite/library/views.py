@@ -3,6 +3,7 @@ from .models import BookInstance, Book, Author, Genre
 import datetime
 from django.views import generic
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 # Create your views here.
@@ -52,3 +53,12 @@ class BookDetailView(generic.DetailView):
     template_name = "book.html"
     context_object_name = "book"
 
+
+def search(request):
+    query = request.GET.get('query')
+    search_results = Book.objects.filter(Q(title__icontains=query) | Q(summary__icontains=query))
+    context = {
+        "query": query,
+        "books": search_results,
+    }
+    return render(request, template_name="search.html", context=context)
