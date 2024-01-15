@@ -36,11 +36,13 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(verbose_name="Pavadinimas", max_length=200)
-    author = models.ForeignKey(to="Author", verbose_name="Autorius", on_delete=models.SET_NULL, null=True, blank=True, related_name='books')
+    author = models.ForeignKey(to="Author", verbose_name="Autorius", on_delete=models.SET_NULL, null=True, blank=True,
+                               related_name='books')
     summary = models.TextField(verbose_name="Aprašymas", max_length=1000, help_text='Trumpas knygos aprašymas')
     isbn = models.CharField(verbose_name="ISBN", max_length=13,
                             help_text='13 Simbolių <a href="https://www.isbn-international.org/content/what-isbn">ISBN kodas</a>')
     genre = models.ManyToManyField(to="Genre", verbose_name="Žanrai", help_text='Išrinkite žanrą(us) šiai knygai')
+    cover = models.ImageField(verbose_name="Viršelis", upload_to="covers", null=True, blank=True)
 
     def display_genre(self):
         return ', '.join(genre.name for genre in self.genre.all())
@@ -57,7 +59,8 @@ class Book(models.Model):
 
 class BookInstance(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4, help_text='Unikalus ID knygos kopijai')
-    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True, related_name="instances")
+    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True,
+                             related_name="instances")
     due_back = models.DateField(verbose_name="Bus prieinama", null=True, blank=True)
 
     LOAN_STATUS = (
