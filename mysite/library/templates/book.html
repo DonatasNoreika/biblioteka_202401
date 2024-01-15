@@ -4,7 +4,7 @@
 
 {% block "content" %}
 {% if book.cover %}
-<img class="card-img-top" src="{{ book.cover.url }}" >
+<img class="card-img-top; max-width: 20%" src="{{ book.cover.url }}" >
 {% endif %}
 <p><strong>Pavadinimas: </strong>{{ book.title }}</p>
 <p><strong>Autorius: </strong>{{ book.author }}</p>
