@@ -5,6 +5,6 @@
 {% block "content" %}
 <h1>Mano paimtos knygos:</h1>
 {% for instance in instances %}
-<p>{{ instance }}</p>
+<p class="{% if instance.is_overdue %}text-danger{% endif %}">{{ instance }}</p>
 {% endfor %}
 {% endblock %}

@@ -62,8 +62,11 @@ class BookDetailView(generic.DetailView):
 
 def search(request):
     query = request.GET.get('query')
-    book_search_results = Book.objects.filter(Q(title__icontains=query) | Q(summary__icontains=query) | Q(isbn__icontains=query) | Q(author__first_name__icontains=query) | Q(author__last_name__icontains=query))
-    author_search_results = Author.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(description__icontains=query))
+    book_search_results = Book.objects.filter(
+        Q(title__icontains=query) | Q(summary__icontains=query) | Q(isbn__icontains=query) | Q(
+            author__first_name__icontains=query) | Q(author__last_name__icontains=query))
+    author_search_results = Author.objects.filter(
+        Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(description__icontains=query))
     context = {
         "query": query,
         "books": book_search_results,
@@ -79,4 +82,3 @@ class MyBookInstanceListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(reader=self.request.user)
-
