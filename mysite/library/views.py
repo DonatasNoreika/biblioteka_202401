@@ -9,6 +9,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.forms import User
+from django.views.generic.edit import FormMixin
+from .forms import BookReviewForm
 
 # Create your views here.
 def index(request):
@@ -57,10 +59,11 @@ class BookListView(generic.ListView):
     paginate_by = 6
 
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(FormMixin, generic.DetailView):
     model = Book
     template_name = "book.html"
     context_object_name = "book"
+    form_class = BookReviewForm
 
 
 def search(request):
