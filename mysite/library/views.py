@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from .models import BookInstance, Book, Author, Genre
 import datetime
 from django.views import generic
@@ -64,6 +64,24 @@ class BookDetailView(FormMixin, generic.DetailView):
     template_name = "book.html"
     context_object_name = "book"
     form_class = BookReviewForm
+
+    def get_success_url(self):
+        return reverse("book", kwargs={"pk": self.object.id})
+
+    # standartinis post metodo perrašymas, naudojant FormMixin, galite kopijuoti tiesiai į savo projektą.
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.book = self.object
+        form.instance.reviewer = self.request.user
+        form.save()
+        return super().form_valid(form)
 
 
 def search(request):
