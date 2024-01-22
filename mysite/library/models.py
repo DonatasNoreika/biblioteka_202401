@@ -3,11 +3,19 @@ from django.contrib.auth.models import User
 import uuid
 import datetime
 from tinymce.models import HTMLField
+from PIL import Image
 
 
 class Profile(models.Model):
     user = models.OneToOneField(to=User, verbose_name="Vartotojas", on_delete=models.CASCADE)
     photo = models.ImageField(verbose_name="nuotrauka", default="profile_pics/default.png", upload_to="profile_pics")
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        super().save(force_insert, force_update, using, update_fields)
+        img = Image.open(self.photo.path)
+        if img.height > 300 or img.width > 300:
+            img.thumbnail((300, 300))
+            img.save(self.photo.path)
 
     def __str__(self):
         return f"{self.user.username} profilis"
