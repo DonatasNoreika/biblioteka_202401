@@ -11,6 +11,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import User
 from django.views.generic.edit import FormMixin
 from .forms import BookReviewForm
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
@@ -107,6 +109,7 @@ class MyBookInstanceListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return BookInstance.objects.filter(reader=self.request.user)
 
+
 @csrf_protect
 def register(request):
     if request.method == "GET":
@@ -131,3 +134,8 @@ def register(request):
         else:
             messages.error(request, message="Slaptažodžiai nesutampa")
             return redirect(to="register")
+
+
+@login_required()
+def profile(request):
+    return render(request, template_name="profile.html")

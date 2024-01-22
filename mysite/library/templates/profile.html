@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block "title" %}Vartotojo profilis{% endblock %}
+
+{% block "content" %}
+<div class="content-section">
+    <div class="media">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+    </div>
+</div>
+{% endblock %}
