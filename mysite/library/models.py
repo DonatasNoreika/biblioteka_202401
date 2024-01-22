@@ -5,6 +5,13 @@ import datetime
 from tinymce.models import HTMLField
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(to=User, verbose_name="Vartotojas", on_delete=models.CASCADE)
+    photo = models.ImageField(verbose_name="nuotrauka", default="profile_pics/default.png", upload_to="profile_pics")
+
+    def __str__(self):
+        return f"{self.user.username} profilis"
+
 # Create your models here.
 class Genre(models.Model):
     name = models.CharField(verbose_name="Pavadinimas", max_length=200,
@@ -89,7 +96,8 @@ class BookInstance(models.Model):
 
 
 class BookReview(models.Model):
-    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True, related_name="reviews")
+    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True,
+                             related_name="reviews")
     reviewer = models.ForeignKey(to=User, verbose_name="Komentatorius", on_delete=models.SET_NULL, null=True,
                                  blank=True)
     date_created = models.DateTimeField(verbose_name="Data", auto_now_add=True)
