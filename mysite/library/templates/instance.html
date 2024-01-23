@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block "title" %}Egzempliorius{% endblock%}
+
+{% block "content" %}
+<h1>Knygos egzempliorius {{ instance.uuid }}</h1>
+<p><strong>Knyga: </strong>{{ instance.book }}</p>
+<p><strong>Būsena: </strong>{{ instance.get_status_display }}</p>
+<p><strong>Paimta iki: </strong>{{ instance.due_back }}</p>
+<p><strong>Paėmė: </strong><img class="rounded-circle" style="width: 30px" src="{{ instance.reader.profile.photo.url }}"> {{ instance.reader }}</p>
+{% endblock %}

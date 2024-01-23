@@ -68,7 +68,7 @@ class Book(models.Model):
     display_genre.short_description = 'Žanras (-ai)'
 
     def __str__(self):
-        return f"{self.title}"
+        return f"{self.title} ({self.author})"
 
     class Meta:
         verbose_name = "Knyga"
