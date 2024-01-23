@@ -8,4 +8,9 @@
 <p><strong>Būsena: </strong>{{ instance.get_status_display }}</p>
 <p><strong>Paimta iki: </strong>{{ instance.due_back }}</p>
 <p><strong>Paėmė: </strong><img class="rounded-circle" style="width: 30px" src="{{ instance.reader.profile.photo.url }}"> {{ instance.reader }}</p>
+{% if instance.reader == user %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'instance_update' instance.pk %}">Redaguoti</a>
+</div>
+{% endif %}
 {% endblock %}

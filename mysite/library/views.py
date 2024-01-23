@@ -4,7 +4,7 @@ import datetime
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.shortcuts import redirect
@@ -179,5 +179,18 @@ class BookInstanceCreateView(LoginRequiredMixin, generic.CreateView):
         return super().form_valid(form)
 
 
+class BookInstanceUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = BookInstance
+    template_name = "instance_form.html"
+    fields = ['book', 'status', 'due_back']
+    # success_url = "/library/instances/"
 
+    def get_success_url(self):
+        return reverse("instance", kwargs={"pk": self.object.id})
 
+    def form_valid(self, form):
+        form.instance.reader = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.get_object().reader == self.request.user
