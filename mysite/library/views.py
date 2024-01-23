@@ -166,3 +166,18 @@ class BookInstanceDetailView(LoginRequiredMixin, generic.DetailView):
     model = BookInstance
     context_object_name = "instance"
     template_name = 'instance.html'
+
+
+class BookInstanceCreateView(LoginRequiredMixin, generic.CreateView):
+    model = BookInstance
+    template_name = "instance_form.html"
+    fields = ['book', 'status', 'due_back']
+    success_url = "/library/instances/"
+
+    def form_valid(self, form):
+        form.instance.reader = self.request.user
+        return super().form_valid(form)
+
+
+
+

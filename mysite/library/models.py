@@ -98,7 +98,7 @@ class BookInstance(models.Model):
         return f"{self.uuid} ({self.book.title}) - {self.get_status_display()} - {self.due_back})"
 
     class Meta:
-        ordering = ('due_back',)
+        ordering = ('-due_back',)
         verbose_name = "Knygos egzempliorius"
         verbose_name_plural = 'Knygos egzemplioriai'
 

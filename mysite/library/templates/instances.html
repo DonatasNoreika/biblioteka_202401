@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block "title" %}Knygų egzemplioriai{% endblock%}
 {% block "content" %}
+<a class="btn btn-secondary btn-sm mt-1 mb-3" href="{% url 'instance_new' %}">Naujas egzempliorius</a>
 {% for instance in instances %}
 <p><a href="{{ instance.pk }}">{{ instance.book.title }}</a> - {{ instance.uuid }}<span class="{% if instance.is_overdue %}text-danger{% endif %}"> ({{ instance.due_back }})</span>
     <hr>
