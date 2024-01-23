@@ -154,3 +154,9 @@ def profile(request):
             "p_form": p_form,
         }
         return render(request, template_name="profile.html", context=context)
+
+
+class BookInstanceListView(generic.ListView):
+    model = BookInstance
+    context_object_name = "instances"
+    template_name = "instances.html"
