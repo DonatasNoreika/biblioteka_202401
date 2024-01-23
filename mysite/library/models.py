@@ -104,10 +104,8 @@ class BookInstance(models.Model):
 
 
 class BookReview(models.Model):
-    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True,
-                             related_name="reviews")
-    reviewer = models.ForeignKey(to=User, verbose_name="Komentatorius", on_delete=models.SET_NULL, null=True,
-                                 blank=True)
+    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True, related_name="reviews")
+    reviewer = models.ForeignKey(to=User, verbose_name="Komentatorius", on_delete=models.SET_NULL, null=True, blank=True)
     date_created = models.DateTimeField(verbose_name="Data", auto_now_add=True)
     content = models.TextField(verbose_name="Atsiliepimas", max_length=2000)
 
