@@ -23,6 +23,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('library/', include('library.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('', RedirectView.as_view(url='library/', permanent=True)),
