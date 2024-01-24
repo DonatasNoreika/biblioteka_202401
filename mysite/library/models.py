@@ -4,11 +4,12 @@ import uuid
 import datetime
 from tinymce.models import HTMLField
 from PIL import Image
+from django.utils.translation import gettext_lazy as _
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(to=User, verbose_name="Vartotojas", on_delete=models.CASCADE)
-    photo = models.ImageField(verbose_name="nuotrauka", default="profile_pics/default.png", upload_to="profile_pics")
+    user = models.OneToOneField(to=User, verbose_name=_("User"), on_delete=models.CASCADE)
+    photo = models.ImageField(verbose_name=_("Photo"), default="profile_pics/default.png", upload_to="profile_pics")
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super().save(force_insert, force_update, using, update_fields)
@@ -19,6 +20,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} profilis"
+
 
 # Create your models here.
 class Genre(models.Model):
@@ -53,26 +55,27 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(verbose_name="Pavadinimas", max_length=200)
-    author = models.ForeignKey(to="Author", verbose_name="Autorius", on_delete=models.SET_NULL, null=True, blank=True,
+    title = models.CharField(verbose_name=_("Title"), max_length=200)
+    author = models.ForeignKey(to="Author", verbose_name=_("Author"), on_delete=models.SET_NULL, null=True, blank=True,
                                related_name='books')
-    summary = models.TextField(verbose_name="Aprašymas", max_length=1000, help_text='Trumpas knygos aprašymas')
+    summary = models.TextField(verbose_name=_("Summary"), max_length=1000, help_text='Trumpas knygos aprašymas')
     isbn = models.CharField(verbose_name="ISBN", max_length=13,
-                            help_text='13 Simbolių <a href="https://www.isbn-international.org/content/what-isbn">ISBN kodas</a>')
-    genre = models.ManyToManyField(to="Genre", verbose_name="Žanrai", help_text='Išrinkite žanrą(us) šiai knygai')
-    cover = models.ImageField(verbose_name="Viršelis", upload_to="covers", null=True, blank=True)
+                            help_text=_(
+                                '13 symbols <a href="https://www.isbn-international.org/content/what-isbn">ISBN code</a>'))
+    genre = models.ManyToManyField(to="Genre", verbose_name=_("Genres"), help_text='Išrinkite žanrą(us) šiai knygai')
+    cover = models.ImageField(verbose_name=_("Cover"), upload_to="covers", null=True, blank=True)
 
     def display_genre(self):
         return ', '.join(genre.name for genre in self.genre.all())
 
-    display_genre.short_description = 'Žanras (-ai)'
+    display_genre.short_description = _('Genres')
 
     def __str__(self):
         return f"{self.title} ({self.author})"
 
     class Meta:
-        verbose_name = "Knyga"
-        verbose_name_plural = 'Knygos'
+        verbose_name = _("Book")
+        verbose_name_plural = _('Books')
 
 
 class BookInstance(models.Model):
@@ -104,8 +107,10 @@ class BookInstance(models.Model):
 
 
 class BookReview(models.Model):
-    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True, related_name="reviews")
-    reviewer = models.ForeignKey(to=User, verbose_name="Komentatorius", on_delete=models.SET_NULL, null=True, blank=True)
+    book = models.ForeignKey(to="Book", verbose_name="Knyga", on_delete=models.SET_NULL, null=True, blank=True,
+                             related_name="reviews")
+    reviewer = models.ForeignKey(to=User, verbose_name="Komentatorius", on_delete=models.SET_NULL, null=True,
+                                 blank=True)
     date_created = models.DateTimeField(verbose_name="Data", auto_now_add=True)
     content = models.TextField(verbose_name="Atsiliepimas", max_length=2000)
 
